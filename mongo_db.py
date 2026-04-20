@@ -5,7 +5,7 @@ try:
     username = "rajat"
     password = quote_plus("Rajat@141099")   # ✅ auto-fix password
 
-    MONGO_URI = f"mongodb+srv://{username}:{password}@cluster0.o14fppz.mongodb.net/?retryWrites=true&w=majority"
+    MONGO_URI = f"mongodb+srv://{username}:{password}@cluster0.0i4fppz.mongodb.net/?retryWrites=true&w=majority"
 
     client = MongoClient(MONGO_URI)
 
