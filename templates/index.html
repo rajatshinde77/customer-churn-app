@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<title>Customer Churn Prediction</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+body{
+    background:#f4f6f9;
+    font-family: Arial, sans-serif;
+}
+
+/* Header */
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:30px;
+}
+
+/* Card style */
+.form-box{
+    background:white;
+    padding:25px;
+    border-radius:12px;
+    box-shadow:0 2px 10px rgba(0,0,0,0.08);
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container mt-5">
+
+<div class="form-box">
+
+<!-- ✅ HEADER WITH FIXED BACK BUTTON -->
+<div class="header">
+
+    <a href="/dashboard" class="btn btn-outline-dark">
+        ⬅ Back
+    </a>
+
+    <h2 class="mb-0">Customer Churn Prediction</h2>
+
+    <div></div>
+
+</div>
+
+<form action="/predict" method="post">
+
+<div class="row">
+
+<div class="col-md-4">
+<label for="gender">Gender</label>
+<select id="gender" name="gender" class="form-control">
+<option value="1">Male</option>
+<option value="0">Female</option>
+</select>
+</div>
+
+<div class="col-md-4">
+<label for="SeniorCitizen">Senior Citizen</label>
+<select id="SeniorCitizen" name="SeniorCitizen" class="form-control">
+<option value="1">Yes</option>
+<option value="0">No</option>
+</select>
+</div>
+
+<div class="col-md-4">
+<label for="Partner">Partner</label>
+<select id="Partner" name="Partner" class="form-control">
+<option value="1">Yes</option>
+<option value="0">No</option>
+</select>
+</div>
+
+<div class="col-md-4 mt-3">
+<label for="Dependents">Dependents</label>
+<select id="Dependents" name="Dependents" class="form-control">
+<option value="1">Yes</option>
+<option value="0">No</option>
+</select>
+</div>
+
+<div class="col-md-4 mt-3">
+<label for="contract">Contract Type</label>
+<select id="contract" name="contract" class="form-control">
+<option value="0">Month-to-Month</option>
+<option value="1">One Year</option>
+<option value="2">Two Year</option>
+</select>
+</div>
+
+<div class="col-md-4 mt-3">
+<label for="internet_service">Internet Service</label>
+<select id="internet_service" name="internet_service" class="form-control">
+<option value="0">No</option>
+<option value="1">DSL</option>
+<option value="2">Fiber Optic</option>
+</select>
+</div>
+
+<div class="col-md-4 mt-3">
+<label for="payment_method">Payment Method</label>
+<select id="payment_method" name="payment_method" class="form-control">
+<option value="0">Electronic Check</option>
+<option value="1">Mailed Check</option>
+<option value="2">Bank Transfer</option>
+<option value="3">Credit Card</option>
+</select>
+</div>
+
+<div class="col-md-4 mt-3">
+<label for="tech_support">Tech Support</label>
+<select id="tech_support" name="tech_support" class="form-control">
+<option value="0">No</option>
+<option value="1">Yes</option>
+</select>
+</div>
+
+<div class="col-md-4 mt-3">
+<label for="streaming_tv">Streaming TV</label>
+<select id="streaming_tv" name="streaming_tv" class="form-control">
+<option value="0">No</option>
+<option value="1">Yes</option>
+</select>
+</div>
+
+<div class="col-md-4 mt-3">
+<label for="online_security">Online Security</label>
+<select id="online_security" name="online_security" class="form-control">
+<option value="0">No</option>
+<option value="1">Yes</option>
+</select>
+</div>
+
+<div class="col-md-4 mt-3">
+<label for="tenure">Tenure</label>
+<input type="number" id="tenure" name="tenure" class="form-control" required>
+</div>
+
+<div class="col-md-4 mt-3">
+<label for="monthly_charges">Monthly Charges</label>
+<input type="number" id="monthly_charges" name="monthly_charges" class="form-control" required>
+</div>
+
+<div class="col-md-4 mt-3">
+<label for="total_charges">Total Charges</label>
+<input type="number" id="total_charges" name="total_charges" class="form-control" required>
+</div>
+
+</div>
+
+<br>
+
+<!-- ✅ ACTION BUTTONS -->
+<div class="text-center">
+
+<a href="/dashboard" class="btn btn-info">View Dashboard</a>
+
+<a href="/model_comparison" class="btn btn-warning">Model Comparison</a>
+
+<br><br>
+
+<button class="btn btn-primary px-4">Predict Churn</button>
+
+<a href="/history" class="btn btn-secondary">View History</a>
+
+</div>
+
+</form>
+
+</div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<title>Customer Analytics</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+
+body{
+    background:#f4f6f9;
+    font-family: Arial, sans-serif;
+}
+
+/* Cards */
+.card{
+    border:none;
+    border-radius:12px;
+}
+
+.metric{
+    font-size:26px;
+    font-weight:bold;
+}
+
+/* Insight box */
+.insight{
+    background:white;
+    padding:20px;
+    border-radius:12px;
+    box-shadow:0 2px 10px rgba(0,0,0,0.05);
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container mt-5">
+
+<h3 class="text-center mb-4">Customer Analytics</h3>
+
+<div class="row text-center g-4">
+
+<div class="col-md-3">
+<div class="card shadow p-3">
+<h6>Avg Monthly Charges</h6>
+<div class="metric">₹ {{ avg_monthly }}</div>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="card shadow p-3">
+<h6>Churn Customers</h6>
+<div class="metric text-danger">{{ churn }}</div>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="card shadow p-3">
+<h6>Non-Churn Customers</h6>
+<div class="metric text-success">{{ not_churn }}</div>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="card shadow p-3">
+<h6>Churn Rate</h6>
+<div class="metric text-danger">{{ churn_rate }}%</div>
+</div>
+</div>
+
+</div>
+
+<!-- Charts -->
+<div class="row mt-5">
+
+<div class="col-md-6">
+<div class="card p-3 shadow">
+<h6 class="text-center">Churn Distribution</h6>
+<canvas id="churnChart"></canvas>
+</div>
+</div>
+
+<div class="col-md-6">
+<div class="card p-3 shadow">
+<h6 class="text-center">Customer Split</h6>
+<canvas id="barChart"></canvas>
+</div>
+</div>
+
+</div>
+
+<br>
+
+<!-- Insights -->
+<div class="insight mt-4">
+
+<h5>Key Insights</h5>
+
+<p>
+• A higher churn rate indicates potential customer dissatisfaction.<br><br>
+
+• Customers with higher monthly charges are more likely to churn.<br><br>
+
+• Early identification of churn customers helps improve retention strategies.
+</p>
+
+</div>
+
+<br>
+
+<div class="text-center mt-4">
+
+    <button onclick="history.back()" class="btn btn-secondary">
+        ⬅ Back
+    </button>
+
+    <a href="/dashboard" class="btn btn-primary mx-2">
+        Dashboard
+    </a>
+
+    <a href="/logout" class="btn btn-danger">
+        Logout
+    </a>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+const churn = Number("{{ churn }}") || 0;
+const not_churn = Number("{{ not_churn }}") || 0;
+
+// Pie Chart
+new Chart(document.getElementById('churnChart'), {
+type: 'pie',
+data: {
+labels: ['Churn', 'Non-Churn'],
+datasets: [{
+data: [churn, not_churn],
+backgroundColor: ['#dc3545','#28a745']
+}]
+}
+});
+
+// Bar Chart
+new Chart(document.getElementById('barChart'), {
+type: 'bar',
+data: {
+labels: ['Churn', 'Non-Churn'],
+datasets: [{
+label: 'Customers',
+data: [churn, not_churn]
+}]
+}
+});
+
+</script>
+
+</body>
+</html>

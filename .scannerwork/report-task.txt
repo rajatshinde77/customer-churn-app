@@ -1,0 +1,6 @@
+projectKey=churn-project
+serverUrl=http://localhost:9000
+serverVersion=26.4.0.121862
+dashboardUrl=http://localhost:9000/dashboard?id=churn-project
+ceTaskId=bba30cfc-5986-4392-a9bb-5047f5cf1629
+ceTaskUrl=http://localhost:9000/api/ce/task?id=bba30cfc-5986-4392-a9bb-5047f5cf1629
