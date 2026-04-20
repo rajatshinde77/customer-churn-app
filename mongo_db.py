@@ -1,8 +1,11 @@
 from pymongo import MongoClient
+from urllib.parse import quote_plus
 
 try:
-    # ✅ FINAL CORRECT CONNECTION STRING
-    MONGO_URI = "mongodb+srv://rajat:<Rajat@141099>@cluster0.0i4fppz.mongodb.net/?appName=Cluster0"
+    username = "rajat"
+    password = quote_plus("Rajat@141099")   # ✅ auto-fix password
+
+    MONGO_URI = f"mongodb+srv://{username}:{password}@cluster0.o14fppz.mongodb.net/?retryWrites=true&w=majority"
 
     client = MongoClient(MONGO_URI)
 
