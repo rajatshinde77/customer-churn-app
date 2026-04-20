@@ -24,8 +24,10 @@ body {
 /* Logo */
 .logo {
     display: block;
-    margin: 0 auto 15px;
+    margin: 0 auto 10px;   /* small gap below logo */
+    width: 240px;          /* perfect size */
 }
+
 </style>
 
 </head>
@@ -37,7 +39,7 @@ body {
 <div class="card-box">
 
 <!-- LOGO -->
-<img src="/static/logo_main.png" width="120" class="logo" alt="Company Logo">
+<img src="{{ url_for('static', filename='logo_report.png') }}" class="logo" alt="Company Logo">
 
 <h2 class="text-center mb-4">Prediction History</h2>
 
