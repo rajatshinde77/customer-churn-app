@@ -118,7 +118,10 @@ def home_page():
 @app.route("/history", methods=["GET"])
 @login_required
 def history():
-    data = list(predictions_collection.find())
+    if predictions_collection:
+        data = list(predictions_collection.find())
+    else:
+        data = []
     return render_template("history.html", data=data)
 
 
@@ -129,9 +132,14 @@ def history():
 @login_required
 def dashboard():
 
-    total_predictions = predictions_collection.count_documents({})
-    churn_count = predictions_collection.count_documents({"prediction": CHURN})
-    not_churn_count = predictions_collection.count_documents({"prediction": NOT_CHURN})
+    if predictions_collection:
+        total_predictions = predictions_collection.count_documents({})
+        churn_count = predictions_collection.count_documents({"prediction": CHURN})
+        not_churn_count = predictions_collection.count_documents({"prediction": NOT_CHURN})
+    else:
+        total_predictions = 0
+        churn_count = 0
+        not_churn_count = 0
 
     return render_template(
         "dashboard.html",
@@ -140,11 +148,17 @@ def dashboard():
         not_churn=not_churn_count
     )
 
+# -------------------------
+# analytics
+# -------------------------
 @app.route("/analytics", methods=["GET"])
 @login_required
 def analytics():
 
-    data = list(predictions_collection.find())
+    if predictions_collection:
+        data = list(predictions_collection.find())
+    else:
+        data = []
 
     total = len(data)
 
@@ -315,11 +329,12 @@ def predict():
         # -------------------------
         # Save to DB
         # -------------------------
-        predictions_collection.insert_one({
-            "tenure": data["tenure"],
-            "monthly_charges": data["monthly_charges"],
-            "total_charges": data["total_charges"],
-            "prediction": result
+        if predictions_collection:
+            predictions_collection.insert_one({
+                "tenure": data["tenure"],
+                "monthly_charges": data["monthly_charges"],
+                "total_charges": data["total_charges"],
+                "prediction": result
         })
 
         # -------------------------
@@ -345,8 +360,8 @@ def predict():
                 "risk": risk,
                 "risk_level": risk_level,
                 "reasons": reasons
-        })
-
+            })
+        
         return render_template(
             "result.html",
             prediction_text=result,
@@ -409,6 +424,9 @@ def download_report():
 @login_required
 def download_from_history(id):
 
+    if not predictions_collection:
+        return "Database not available"
+
     record = predictions_collection.find_one({"_id": ObjectId(id)})
 
     if not record:
@@ -458,4 +476,4 @@ def download_from_history(id):
 # Run Flask App
 # -------------------------
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
