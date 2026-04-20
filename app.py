@@ -334,8 +334,8 @@ def predict():
                 "tenure": data["tenure"],
                 "monthly_charges": data["monthly_charges"],
                 "total_charges": data["total_charges"],
-                "prediction": result
-        })
+                "prediction": result,
+            })
 
         # -------------------------
         # Store for PDF

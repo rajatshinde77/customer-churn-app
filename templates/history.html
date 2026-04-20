@@ -24,10 +24,9 @@ body {
 /* Logo */
 .logo {
     display: block;
-    margin: 0 auto 10px;   /* small gap below logo */
-    width: 240px;          /* perfect size */
+    margin: 0 auto 10px;
+    width: 240px;
 }
-
 </style>
 
 </head>
@@ -43,7 +42,27 @@ body {
 
 <h2 class="text-center mb-4">Prediction History</h2>
 
-<table class="table table-hover table-bordered text-center">
+<!-- 🔍 SEARCH + FILTER -->
+<div class="row mb-2">
+
+  <div class="col-md-6">
+    <input type="text" id="searchInput" class="form-control" placeholder="Search (Tenure / Charges)">
+  </div>
+
+  <div class="col-md-3">
+    <select id="filterChurn" class="form-select">
+      <option value="all">All</option>
+      <option value="churn">Churn</option>
+      <option value="no churn">No Churn</option>
+    </select>
+  </div>
+
+</div>
+
+<!-- ✅ RESULT COUNT -->
+<p id="resultCount" class="text-muted mb-3"></p>
+
+<table class="table table-hover table-bordered text-center" id="historyTable">
 
 <thead class="table-dark">
 
@@ -67,8 +86,8 @@ body {
 <td>{{ row.monthly_charges }}</td>
 <td>{{ row.total_charges }}</td>
 
-<!-- FIXED PREDICTION DISPLAY -->
-<td>
+<!-- ✅ Prediction -->
+<td class="churn-status">
     {% if row.prediction == "Customer Will Churn" %}
         <span class="badge bg-danger">Churn</span>
     {% else %}
@@ -76,7 +95,6 @@ body {
     {% endif %}
 </td>
 
-<!-- DOWNLOAD BUTTON -->
 <td>
     <a href="/download/{{ row._id }}" class="btn btn-success btn-sm">
         Download
@@ -98,6 +116,63 @@ body {
 </div>
 
 </div>
+
+<!-- 🔥 JAVASCRIPT (FINAL FIXED) -->
+<script>
+
+const searchInput = document.getElementById("searchInput");
+const filterChurn = document.getElementById("filterChurn");
+
+// Run when page loads
+document.addEventListener("DOMContentLoaded", filterTable);
+
+// Fast typing
+searchInput.addEventListener("input", filterTable);
+
+// Instant dropdown
+filterChurn.addEventListener("change", filterTable);
+
+function filterTable() {
+
+  const searchValue = searchInput.value.toLowerCase().trim();
+  const filterValue = filterChurn.value.toLowerCase();
+
+  const rows = document.querySelectorAll("#historyTable tbody tr");
+
+  let visibleCount = 0;
+
+  rows.forEach(row => {
+
+    const tenure = row.cells[0].innerText.toLowerCase();
+    const monthly = row.cells[1].innerText.toLowerCase();
+    const total = row.cells[2].innerText.toLowerCase();
+
+    const churn = row.querySelector(".churn-status")
+                     .innerText.toLowerCase()
+                     .trim();
+
+    let matchesSearch = tenure.includes(searchValue) ||
+                        monthly.includes(searchValue) ||
+                        total.includes(searchValue);
+
+    let matchesFilter = (filterValue === "all") || (churn === filterValue);
+
+    if (matchesSearch && matchesFilter) {
+      row.style.display = "";
+      visibleCount++;
+    } else {
+      row.style.display = "none";
+    }
+
+  });
+
+  // Show result count
+  document.getElementById("resultCount").innerText =
+    "Showing " + visibleCount + " results";
+
+}
+
+</script>
 
 </body>
 </html>

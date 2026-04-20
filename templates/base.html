@@ -50,6 +50,24 @@ margin-left:230px;
 padding:30px;
 }
 
+/* ✅ Watermark */
+
+.watermark {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+
+  font-size: 22px;
+  font-family: "Brush Script MT", cursive;
+
+  color: rgba(0, 0, 0, 0.7); /* 👈 darker so visible */
+
+  text-shadow: 1px 1px 3px rgba(255,255,255,0.5); /* contrast */
+
+  pointer-events: none;
+  z-index: 9999; /* 👈 make sure it's on top */
+}
+
 </style>
 
 </head>
@@ -62,7 +80,11 @@ padding:30px;
 
 <h4>Churn System</h4>
 
-<a href="/dashboard">Dashboard</a> <a href="/home">Predict Customer</a> <a href="/history">Prediction History</a> <a href="/analytics">Analytics</a> <a href="/model_comparison">Model Comparison</a>
+<a href="/dashboard">Dashboard</a> 
+<a href="/home">Predict Customer</a> 
+<a href="/history">Prediction History</a> 
+<a href="/analytics">Analytics</a> 
+<a href="/model_comparison">Model Comparison</a>
 
 <hr style="color:white">
 
@@ -77,6 +99,12 @@ padding:30px;
 {% block content %}
 {% endblock %}
 
+</div>
+
+<!-- ✅ Watermark added here -->
+
+<div class="watermark">
+  @Rajat Shinde
 </div>
 
 </body>
