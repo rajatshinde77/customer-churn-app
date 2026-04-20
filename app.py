@@ -118,7 +118,7 @@ def home_page():
 @app.route("/history", methods=["GET"])
 @login_required
 def history():
-    if predictions_collection:
+    if predictions_collection is not None:
         data = list(predictions_collection.find())
     else:
         data = []
@@ -132,7 +132,7 @@ def history():
 @login_required
 def dashboard():
 
-    if predictions_collection:
+    if predictions_collection is not None:
         total_predictions = predictions_collection.count_documents({})
         churn_count = predictions_collection.count_documents({"prediction": CHURN})
         not_churn_count = predictions_collection.count_documents({"prediction": NOT_CHURN})
@@ -155,7 +155,7 @@ def dashboard():
 @login_required
 def analytics():
 
-    if predictions_collection:
+    if predictions_collection is not None:
         data = list(predictions_collection.find())
     else:
         data = []
@@ -165,9 +165,9 @@ def analytics():
     if total == 0:
         avg_monthly = 0
     else:
-        avg_monthly = sum(float(d["monthly_charges"]) for d in data) / total
+        avg_monthly = sum(float(d.get("monthly_charges", 0)) for d in data) / total
 
-    churn_count = sum(1 for d in data if d["prediction"] == CHURN)
+    churn_count = sum(1 for d in data if d.get("prediction") == CHURN)
     not_churn_count = total - churn_count
 
     # ✅ FIX ADDED
@@ -329,7 +329,7 @@ def predict():
         # -------------------------
         # Save to DB
         # -------------------------
-        if predictions_collection:
+        if predictions_collection is not None:
             predictions_collection.insert_one({
                 "tenure": data["tenure"],
                 "monthly_charges": data["monthly_charges"],
@@ -424,7 +424,7 @@ def download_report():
 @login_required
 def download_from_history(id):
 
-    if not predictions_collection:
+    if predictions_collection is None:
         return "Database not available"
 
     record = predictions_collection.find_one({"_id": ObjectId(id)})
