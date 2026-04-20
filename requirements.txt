@@ -4,5 +4,5 @@ pandas
 numpy
 scikit-learn
 gunicorn
-pymongo
+pymongo[srv]
 reportlab
