@@ -243,16 +243,17 @@ def generate_reasons(pred, tenure, monthly, contract, tech, security, dependents
 
     return reasons
 
-@app.route("/predict", methods=["POST"])
+@app.route("/predict", methods=["GET", "POST"])
 def predict():
 
+    # ✅ THIS IS THE ONLY FIX YOU NEED
+    if request.method == "GET":
+        return render_template("index.html")   # your prediction form page
+
+    # existing code (NO CHANGE)
     data = request.get_json() if request.is_json else request.form
 
     try:
-
-        # -------------------------
-        # Input Features
-        # -------------------------
         features = [
             float(data["gender"]),
             float(data["SeniorCitizen"]),
