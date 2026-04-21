@@ -112,16 +112,45 @@ def home_page():
     return render_template("index.html")
 
 
-# -------------------------
-# Prediction History
-# -------------------------
 @app.route("/history", methods=["GET"])
 @login_required
 def history():
+
+    tenure = request.args.get("tenure")
+    monthly = request.args.get("monthly_charges")
+    total = request.args.get("total_charges")
+    churn = request.args.get("churn")   # ✅ NEW
+
+    query = {}
+
+    try:
+        if tenure:
+            query["tenure"] = float(tenure)
+
+        if monthly:
+            query["monthly_charges"] = float(monthly)
+
+        if total:
+            query["total_charges"] = float(total)
+
+        # ✅ CHURN FILTER
+        if churn and churn != "all":
+            if churn == "churn":
+                query["prediction"] = "Customer Will Churn"
+            elif churn == "no churn":
+                query["prediction"] = "Customer Will Not Churn"
+
+    except:
+        query = {}
+
     if predictions_collection is not None:
-        data = list(predictions_collection.find())
+        if query:
+            data = list(predictions_collection.find(query))
+        else:
+            data = list(predictions_collection.find())
     else:
         data = []
+
     return render_template("history.html", data=data)
 
 

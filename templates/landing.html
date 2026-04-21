@@ -51,31 +51,77 @@ z-index:-2;
 .bubble{
 position:absolute;
 border-radius:50%;
-background:rgba(255,255,255,0.08);
+background:rgba(255,255,255,0.06);
 animation: float 8s infinite ease-in-out;
 }
 
+/* Different bubbles */
+
 .bubble1{
-width:300px;
-height:300px;
-top:10%;
-left:15%;
+width:280px;
+height:280px;
+top:8%;
+left:10%;
 }
 
 .bubble2{
 width:200px;
 height:200px;
-bottom:15%;
-right:20%;
+bottom:12%;
+right:18%;
 animation-duration:10s;
 }
 
 .bubble3{
-width:150px;
-height:150px;
+width:140px;
+height:140px;
 top:70%;
 left:30%;
 animation-duration:7s;
+}
+
+.bubble4{
+width:160px;
+height:160px;
+top:20%;
+right:10%;
+animation-duration:9s;
+}
+
+.bubble5{
+width:100px;
+height:100px;
+bottom:25%;
+left:8%;
+animation-duration:6s;
+}
+
+.bubble6{
+width:180px;
+height:180px;
+top:40%;
+right:5%;
+animation-duration:11s;
+}
+
+.bubble7{
+width:90px;
+height:90px;
+top:10%;
+right:35%;
+animation-duration:5s;
+}
+
+.bubble8{
+width:130px;
+height:130px;
+bottom:10%;
+left:40%;
+animation-duration:8s;
+}
+
+.bubble{
+box-shadow: 0 0 30px rgba(255,255,255,0.05);
 }
 
 @keyframes float{
@@ -153,6 +199,11 @@ box-shadow:0 0 40px rgba(255,215,0,1);
 <div class="bubble bubble1"></div>
 <div class="bubble bubble2"></div>
 <div class="bubble bubble3"></div>
+<div class="bubble bubble4"></div>
+<div class="bubble bubble5"></div>
+<div class="bubble bubble6"></div>
+<div class="bubble bubble7"></div>
+<div class="bubble bubble8"></div>
 
 <div class="main-card">
 
@@ -167,6 +218,12 @@ AI Powered System to Predict Customer Churn using Machine Learning
 <a href="/login" class="enter-btn">
 Enter System
 </a>
+<p style="text-align:center; margin-top:20px; font-size:13px; color:#ccc;">
+  ⚡by 
+  <span style="color:#4FC3F7; font-size:15px; font-weight:600; font-family:'Poppins', sans-serif;">
+    RAJAT SHINDE 
+  </span>
+</p>
 
 </div>
 

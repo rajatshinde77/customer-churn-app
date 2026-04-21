@@ -42,11 +42,19 @@ body {
 
 <h2 class="text-center mb-4">Prediction History</h2>
 
-<!-- 🔍 SEARCH + FILTER -->
-<div class="row mb-2">
+<!-- ✅ INSTANT SEARCH (NO BUTTON) -->
+<div class="row mb-3">
 
-  <div class="col-md-6">
-    <input type="text" id="searchInput" class="form-control" placeholder="Search (Tenure / Charges)">
+  <div class="col-md-3">
+    <input type="number" id="tenureInput" class="form-control" placeholder="Tenure">
+  </div>
+
+  <div class="col-md-3">
+    <input type="number" id="monthlyInput" class="form-control" placeholder="Monthly Charges">
+  </div>
+
+  <div class="col-md-3">
+    <input type="number" id="totalInput" class="form-control" placeholder="Total Charges">
   </div>
 
   <div class="col-md-3">
@@ -58,9 +66,6 @@ body {
   </div>
 
 </div>
-
-<!-- ✅ RESULT COUNT -->
-<p id="resultCount" class="text-muted mb-3"></p>
 
 <table class="table table-hover table-bordered text-center" id="historyTable">
 
@@ -86,7 +91,6 @@ body {
 <td>{{ row.monthly_charges }}</td>
 <td>{{ row.total_charges }}</td>
 
-<!-- ✅ Prediction -->
 <td class="churn-status">
     {% if row.prediction == "Customer Will Churn" %}
         <span class="badge bg-danger">Churn</span>
@@ -117,58 +121,53 @@ body {
 
 </div>
 
-<!-- 🔥 JAVASCRIPT (FINAL FIXED) -->
+<!-- ✅ INSTANT FILTER SCRIPT -->
 <script>
 
-const searchInput = document.getElementById("searchInput");
+const tenureInput = document.getElementById("tenureInput");
+const monthlyInput = document.getElementById("monthlyInput");
+const totalInput = document.getElementById("totalInput");
 const filterChurn = document.getElementById("filterChurn");
 
-// Run when page loads
 document.addEventListener("DOMContentLoaded", filterTable);
 
-// Fast typing
-searchInput.addEventListener("input", filterTable);
-
-// Instant dropdown
+tenureInput.addEventListener("input", filterTable);
+monthlyInput.addEventListener("input", filterTable);
+totalInput.addEventListener("input", filterTable);
 filterChurn.addEventListener("change", filterTable);
 
 function filterTable() {
 
-  const searchValue = searchInput.value.toLowerCase().trim();
+  const tenureValue = tenureInput.value.trim();
+  const monthlyValue = monthlyInput.value.trim();
+  const totalValue = totalInput.value.trim();
   const filterValue = filterChurn.value.toLowerCase();
 
   const rows = document.querySelectorAll("#historyTable tbody tr");
 
-  let visibleCount = 0;
-
   rows.forEach(row => {
 
-    const tenure = row.cells[0].innerText.toLowerCase();
-    const monthly = row.cells[1].innerText.toLowerCase();
-    const total = row.cells[2].innerText.toLowerCase();
+    const tenure = row.cells[0].innerText.trim();
+    const monthly = row.cells[1].innerText.trim();
+    const total = row.cells[2].innerText.trim();
 
     const churn = row.querySelector(".churn-status")
                      .innerText.toLowerCase()
                      .trim();
 
-    let matchesSearch = tenure.includes(searchValue) ||
-                        monthly.includes(searchValue) ||
-                        total.includes(searchValue);
+    let match = true;
 
-    let matchesFilter = (filterValue === "all") || (churn === filterValue);
+    // ✅ Exact matching
+    if (tenureValue && tenure !== tenureValue) match = false;
+    if (monthlyValue && monthly !== monthlyValue) match = false;
+    if (totalValue && total !== totalValue) match = false;
 
-    if (matchesSearch && matchesFilter) {
-      row.style.display = "";
-      visibleCount++;
-    } else {
-      row.style.display = "none";
-    }
+    // ✅ Dropdown filter
+    if (filterValue !== "all" && churn !== filterValue) match = false;
+
+    row.style.display = match ? "" : "none";
 
   });
-
-  // Show result count
-  document.getElementById("resultCount").innerText =
-    "Showing " + visibleCount + " results";
 
 }
 
